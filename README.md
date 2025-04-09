@@ -15,8 +15,8 @@ Para compilar o projeto utilizando o PlatformIO, é necessário criar um arquivo
    #ifndef CREDENTIALS_H
    #define CREDENTIALS_H
 
-   #define SSID "nome_da_rede"
-   #define PASSWORD "senha"
+   #define WIFI_SSID "nome_da_rede"
+   #define WIFI_PASSWORD "senha"
    #define CHANNEL_NUMBER 12334567
    #define WRITE_API_KEY "ABCDEFG123456789"
 
