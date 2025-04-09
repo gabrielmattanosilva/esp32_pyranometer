@@ -5,7 +5,7 @@
 #include "rtc_module.h"
 
 extern File sdFile;
-    
+
 void initSD();
 void logSerialSD(const char *format, ...);
 void writeDataToSD(int16_t solar_irradiance);
