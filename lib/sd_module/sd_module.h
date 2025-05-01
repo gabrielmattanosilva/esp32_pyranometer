@@ -8,7 +8,7 @@ extern File sdFile;
 
 void initSD();
 void logSerialSD(const char *format, ...);
-void writeDataToSD(int16_t solar_irradiance);
+bool writeDataToSD(int16_t solar_irradiance); // Mudado de void para bool
 String generateLogFileName();
 String generateDataFileName();
 

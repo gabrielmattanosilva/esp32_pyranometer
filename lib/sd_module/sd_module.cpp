@@ -16,7 +16,8 @@ String generateLogFileName()
 {
   DateTime now = getCurrentTime();
   char fileName[32];
-  snprintf(fileName, sizeof(fileName), "/log_%04d-%02d-%02d.txt", now.year(), now.month(), now.day());
+  snprintf(fileName, sizeof(fileName), "/log_%04d-%02d-%02d.txt",
+           now.year(), now.month(), now.day());
   return String(fileName);
 }
 
@@ -24,13 +25,14 @@ String generateDataFileName()
 {
   DateTime now = getCurrentTime();
   char fileName[32];
-  snprintf(fileName, sizeof(fileName), "/data_%04d-%02d-%02d.txt", now.year(), now.month(), now.day());
+  snprintf(fileName, sizeof(fileName), "/data_%04d-%02d-%02d.txt",
+           now.year(), now.month(), now.day());
   return String(fileName);
 }
 
 void logSerialSD(const char *format, ...)
 {
-  char logMessage[256];
+  static char logMessage[256];
   va_list args;
   va_start(args, format);
   vsnprintf(logMessage, sizeof(logMessage), format, args);
@@ -57,23 +59,21 @@ void logSerialSD(const char *format, ...)
   Serial.printf("[%s] %s\n", timestamp, logMessage);
 }
 
-void writeDataToSD(int16_t solar_irradiance)
+bool writeDataToSD(int16_t solar_irradiance)
 {
   DateTime now = getCurrentTime();
-  char dataLine[64];
+  static char dataLine[64];
   snprintf(dataLine, sizeof(dataLine), "%02d-%02d-%04d %02d:%02d:%02d, %d",
            now.day(), now.month(), now.year(), now.hour(), now.minute(), now.second(), solar_irradiance);
 
   String dataFileName = generateDataFileName();
   sdFile = SD.open(dataFileName.c_str(), FILE_APPEND);
-  if (sdFile)
+  if (!sdFile)
   {
-    sdFile.println(dataLine);
-    sdFile.close();
-    logSerialSD("Dados gravados no cartão SD com sucesso!");
+    return false;
   }
-  else
-  {
-    logSerialSD("Erro ao abrir arquivo de dados no cartão SD!");
-  }
+
+  sdFile.println(dataLine);
+  sdFile.close();
+  return true;
 }
