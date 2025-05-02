@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief Programa principal do Pyranômetro ESP32
+ */
+
 #include <Arduino.h>
 #include <esp_task_wdt.h>
 #include "modbus_module.h"
@@ -7,6 +12,9 @@
 #include "thingspeak_module.h"
 #include "wifi_module.h"
 
+/**
+ * @brief Função de inicialização do sistema
+ */
 void setup()
 {
   Serial.begin(115200);
@@ -22,10 +30,14 @@ void setup()
   initModbus();
   initThingSpeak();
 
-  logSerialSD("Sistema inicializado");
+  logSerialSD("Sistema inicializado.");
   logSerialSD("Memória livre inicial: %d bytes", esp_get_free_heap_size());
 }
 
+/**
+ * @brief Loop principal do sistema
+ * @note Executa leitura do sensor a cada 1 segundo e envio de dados a cada 1 minuto
+ */
 void loop()
 {
   static unsigned long previousMillis = 0;
@@ -47,11 +59,11 @@ void loop()
       // Gravação no SD
       if (writeDataToSD(solar_irradiance))
       {
-        logSerialSD("Dados gravados no SD com sucesso");
+        logSerialSD("Dados gravados no SD com sucesso!");
       }
       else
       {
-        Serial.println("Falha ao gravar no SD");
+        Serial.println("Falha ao gravar no SD.");
       }
 
       // Envio ao ThingSpeak
@@ -62,13 +74,13 @@ void loop()
 
         if (!success)
         {
-          logSerialSD("Falha no envio ao ThingSpeak");
+          logSerialSD("Falha no envio ao ThingSpeak.");
         }
       }
       else
       {
         digitalWrite(LED_PIN, LOW);
-        logSerialSD("WiFi desconectado, pulando envio ao ThingSpeak");
+        logSerialSD("WiFi desconectado, pulando envio ao ThingSpeak.");
       }
 
       logSerialSD("Memória livre: %d bytes", esp_get_free_heap_size());

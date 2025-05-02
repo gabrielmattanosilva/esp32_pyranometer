@@ -1,9 +1,14 @@
+/**
+ * @file sd_module.cpp
+ * @brief Implementação do módulo para armazenamento em cartão SD
+ */
+
 #include <SPI.h>
 #include "pins.h"
 #include "rtc_module.h"
 #include "sd_module.h"
 
-File sdFile;
+File sdFile; ///< Arquivo atualmente aberto no SD
 
 void initSD()
 {
@@ -11,9 +16,9 @@ void initSD()
 
   if (!SD.begin(SD_CS_PIN))
   {
-    Serial.println("Erro ao inicializar cartão SD!");
+    Serial.println("Erro ao inicializar cartão SD.");
     while (1)
-      ;
+      ; // Loop infinito em caso de falha
   }
 }
 
@@ -61,7 +66,7 @@ void logSerialSD(const char *format, ...)
   }
   else
   {
-    Serial.println("Erro ao abrir arquivo de log no cartão SD!");
+    Serial.println("Erro ao abrir arquivo de log no cartão SD.");
   }
 
   Serial.printf("[%s] %s\n", timestamp, logMessage);

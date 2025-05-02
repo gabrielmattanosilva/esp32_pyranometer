@@ -1,3 +1,8 @@
+/**
+ * @file thingspeak_module.cpp
+ * @brief Implementação do módulo para envio de dados ao ThingSpeak
+ */
+
 #include <ThingSpeak.h>
 #include <WiFiClient.h>
 #include "credentials.h"
@@ -5,7 +10,7 @@
 #include "thingspeak_module.h"
 #include "wifi_module.h"
 
-WiFiClient client;
+WiFiClient client; ///< Cliente WiFi para comunicação com o ThingSpeak
 
 void initThingSpeak()
 {

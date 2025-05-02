@@ -1,7 +1,7 @@
 import os
 
 def concatenate_c_h_files_in_lib_src(base_dir="."):
-    target_dirs = ["lib", "src"]
+    target_dirs = ["include", "lib", "src"]
     concatenated_files = []
 
     for folder in target_dirs:

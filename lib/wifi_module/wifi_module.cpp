@@ -1,3 +1,8 @@
+/**
+ * @file wifi_module.cpp
+ * @brief Implementação do módulo WiFi
+ */
+
 #include <WiFi.h>
 #include "credentials.h"
 #include "sd_module.h"

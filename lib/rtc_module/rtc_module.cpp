@@ -1,8 +1,13 @@
+/**
+ * @file rtc_module.cpp
+ * @brief Implementação do módulo RTC (Real-Time Clock)
+ */
+
 #include <Wire.h>
 #include "pins.h"
 #include "rtc_module.h"
 
-RTC_DS1307 rtc;
+RTC_DS1307 rtc; ///< Instância global do RTC DS1307
 
 void initRTC()
 {
@@ -10,9 +15,9 @@ void initRTC()
 
   if (!rtc.begin())
   {
-    Serial.println("Erro ao inicializar RTC!");
+    Serial.println("Erro ao inicializar RTC.");
     while (1)
-      ;
+      ; // Loop infinito em caso de falha
   }
 }
 
