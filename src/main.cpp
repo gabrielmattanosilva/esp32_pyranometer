@@ -1,12 +1,11 @@
 #include <Arduino.h>
+#include <esp_task_wdt.h>
+#include "modbus_module.h"
+#include "pins.h"
 #include "rtc_module.h"
 #include "sd_module.h"
-#include "wifi_module.h"
-#include "modbus_module.h"
 #include "thingspeak_module.h"
-#include <esp_task_wdt.h>
-
-const int LED_PIN = 2; // LED indicador
+#include "wifi_module.h"
 
 void setup()
 {

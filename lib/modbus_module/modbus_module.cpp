@@ -1,4 +1,5 @@
 #include "modbus_module.h"
+#include "pins.h"
 #include "sd_module.h"
 
 HardwareSerial modbusSerial(2);
@@ -6,7 +7,7 @@ const uint8_t modbus_function[] = {0x01, 0x04, 0x00, 0x00, 0x00, 0x01, 0x31, 0xC
 
 void initModbus()
 {
-  modbusSerial.begin(9600, SERIAL_8N1, 16, 17);
+  modbusSerial.begin(9600, SERIAL_8N1, MODBUS_RX_PIN, MODBUS_TX_PIN);
   logSerialSD("Iniciando leitura do PYR20...");
 }
 

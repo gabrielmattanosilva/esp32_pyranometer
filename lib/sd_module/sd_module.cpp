@@ -1,10 +1,14 @@
+#include <SPI.h>
+#include "pins.h"
 #include "sd_module.h"
 
 File sdFile;
 
 void initSD()
 {
-  if (!SD.begin(5))
+  SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SD_CS_PIN);
+
+  if (!SD.begin(SD_CS_PIN))
   {
     Serial.println("Erro ao inicializar cartão SD!");
     while (1)
@@ -15,7 +19,7 @@ void initSD()
 String generateLogFileName()
 {
   DateTime now = getCurrentTime();
-  char fileName[32];
+  static char fileName[32];
   snprintf(fileName, sizeof(fileName), "/log_%04d-%02d-%02d.txt",
            now.year(), now.month(), now.day());
   return String(fileName);
@@ -24,7 +28,7 @@ String generateLogFileName()
 String generateDataFileName()
 {
   DateTime now = getCurrentTime();
-  char fileName[32];
+  static char fileName[32];
   snprintf(fileName, sizeof(fileName), "/data_%04d-%02d-%02d.txt",
            now.year(), now.month(), now.day());
   return String(fileName);

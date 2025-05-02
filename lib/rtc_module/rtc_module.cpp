@@ -1,11 +1,12 @@
-#include "rtc_module.h"
 #include <Wire.h>
+#include "pins.h"
+#include "rtc_module.h"
 
 RTC_DS1307 rtc;
 
 void initRTC()
 {
-  Wire.begin(21, 22); // SDA, SCL
+  Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
 
   if (!rtc.begin())
   {
