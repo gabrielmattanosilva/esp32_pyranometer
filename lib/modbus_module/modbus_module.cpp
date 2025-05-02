@@ -1,9 +1,9 @@
+#include <HardwareSerial.h>
 #include "modbus_module.h"
 #include "pins.h"
 #include "sd_module.h"
 
 HardwareSerial modbusSerial(2);
-const uint8_t modbus_function[] = {0x01, 0x04, 0x00, 0x00, 0x00, 0x01, 0x31, 0xCA};
 
 void initModbus()
 {
@@ -14,6 +14,7 @@ void initModbus()
 uint16_t check_crc(const uint8_t *data, uint8_t length)
 {
   uint16_t crc = 0xFFFF;
+
   for (uint8_t i = 0; i < length; i++)
   {
     crc ^= data[i];
@@ -30,15 +31,19 @@ uint16_t check_crc(const uint8_t *data, uint8_t length)
       }
     }
   }
+
   return crc;
 }
 
 void modbus_tx()
 {
+  static const uint8_t modbus_function[] = {0x01, 0x04, 0x00, 0x00, 0x00, 0x01, 0x31, 0xCA};
+
   while (modbusSerial.available())
   {
     modbusSerial.read();
   }
+
   modbusSerial.write(modbus_function, sizeof(modbus_function));
   delay(10);
 }
@@ -73,6 +78,7 @@ int16_t modbus_rx()
 
   uint16_t crc_response = (response[6] << 8) | response[5];
   uint16_t crc_computed = check_crc(response, 5);
+
   if (crc_response != crc_computed)
   {
     logSerialSD("Erro de CRC: esperado %04X, recebido %04X", crc_computed, crc_response);
@@ -86,9 +92,11 @@ int16_t readModbusData()
 {
   modbus_tx();
   int16_t solar_irradiance = modbus_rx();
+
   if (solar_irradiance >= 0)
   {
     logSerialSD("Irradiância: %d W/m^2", solar_irradiance);
   }
+
   return solar_irradiance;
 }

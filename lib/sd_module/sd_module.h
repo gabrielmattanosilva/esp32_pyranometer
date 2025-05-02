@@ -2,7 +2,6 @@
 #define SD_MODULE_H
 
 #include <SD.h>
-#include "rtc_module.h"
 
 extern File sdFile;
 

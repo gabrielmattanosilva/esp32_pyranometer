@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include "pins.h"
+#include "rtc_module.h"
 #include "sd_module.h"
 
 File sdFile;
@@ -22,6 +23,7 @@ String generateLogFileName()
   static char fileName[32];
   snprintf(fileName, sizeof(fileName), "/log_%04d-%02d-%02d.txt",
            now.year(), now.month(), now.day());
+
   return String(fileName);
 }
 
@@ -31,6 +33,7 @@ String generateDataFileName()
   static char fileName[32];
   snprintf(fileName, sizeof(fileName), "/data_%04d-%02d-%02d.txt",
            now.year(), now.month(), now.day());
+
   return String(fileName);
 }
 
@@ -50,6 +53,7 @@ void logSerialSD(const char *format, ...)
 
   String logFileName = generateLogFileName();
   sdFile = SD.open(logFileName.c_str(), FILE_APPEND);
+
   if (sdFile)
   {
     sdFile.printf("[%s] %s\n", timestamp, logMessage);
@@ -72,6 +76,7 @@ bool writeDataToSD(int16_t solar_irradiance)
 
   String dataFileName = generateDataFileName();
   sdFile = SD.open(dataFileName.c_str(), FILE_APPEND);
+
   if (!sdFile)
   {
     return false;
@@ -79,5 +84,6 @@ bool writeDataToSD(int16_t solar_irradiance)
 
   sdFile.println(dataLine);
   sdFile.close();
+
   return true;
 }

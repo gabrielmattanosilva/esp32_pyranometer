@@ -1,8 +1,7 @@
 #ifndef WIFI_MODULE_H
 #define WIFI_MODULE_H
 
-#include <WiFi.h>
-#include "credentials.h"
+#include <stdint.h>
 
 void initWiFi();
 bool isWiFiConnected();

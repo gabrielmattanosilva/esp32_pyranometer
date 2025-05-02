@@ -34,14 +34,14 @@ void loop()
 
   yield(); // Permite que o ESP32 execute tarefas internas
 
-  if (currentMillis - previousMillis >= 1000)
-  { // 1 segundo
+  if (currentMillis - previousMillis >= 1000) // 1 segundo
+  {
     previousMillis = currentMillis;
 
     int16_t solar_irradiance = readModbusData();
 
-    if (currentMillis - lastSendTime >= 60000)
-    { // 1 minuto
+    if (currentMillis - lastSendTime >= 60000) // 1 minuto
+    {
       lastSendTime = currentMillis;
 
       // Gravação no SD

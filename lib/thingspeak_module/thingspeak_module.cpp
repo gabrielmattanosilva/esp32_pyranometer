@@ -1,7 +1,9 @@
+#include <ThingSpeak.h>
+#include <WiFiClient.h>
+#include "credentials.h"
+#include "sd_module.h"
 #include "thingspeak_module.h"
 #include "wifi_module.h"
-#include "sd_module.h"
-#include <WiFiClient.h>
 
 WiFiClient client;
 
@@ -17,7 +19,8 @@ bool sendToThingSpeak(int16_t solar_irradiance)
 {
   if (!isWiFiConnected())
   {
-    logSerialSD("WiFi desconectado. Não foi possível enviar dados ao ThingSpeak.");
+    logSerialSD("WiFi desconectado. Nao foi possivel enviar dados ao ThingSpeak.");
+
     return false;
   }
 
@@ -27,11 +30,13 @@ bool sendToThingSpeak(int16_t solar_irradiance)
   if (httpCode == 200)
   {
     logSerialSD("Dados enviados ao ThingSpeak com sucesso!");
+
     return true;
   }
   else
   {
-    logSerialSD("Erro ao enviar dados ao ThingSpeak. Código HTTP: %d", httpCode);
+    logSerialSD("Erro ao enviar dados ao ThingSpeak. Codigo HTTP: %d", httpCode);
+
     return false;
   }
 }
