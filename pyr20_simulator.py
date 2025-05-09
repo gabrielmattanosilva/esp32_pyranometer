@@ -43,7 +43,7 @@ print("Servidor Modbus RTU iniciado...")
 StartSerialServer(
     context,
     identity=identity,
-    port='COM18',       # Porta serial (ajuste conforme necessário)
+    port='COM14',       # Porta serial (ajuste conforme necessário)
     baudrate=9600,     # Baud rate padrão do PYR20
     stopbits=1,        # Stop bits padrão do PYR20
     bytesize=8,        # Byte size padrão do PYR20

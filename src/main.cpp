@@ -12,6 +12,9 @@
 #include "thingspeak_module.h"
 #include "wifi_module.h"
 
+#define READ_PERIOD 1000  // 1 segundo -> passar para 1 minuto na versão final (6000)
+#define SEND_PERIOD 60000 // 1 minuto -> passar para 10 minutos na versão final (600000)
+
 /**
  * @brief Função de inicialização do sistema
  */
@@ -46,13 +49,13 @@ void loop()
 
   yield(); // Permite que o ESP32 execute tarefas internas
 
-  if (currentMillis - previousMillis >= 1000) // 1 segundo
+  if (currentMillis - previousMillis >= READ_PERIOD)
   {
     previousMillis = currentMillis;
 
     int16_t solar_irradiance = readModbusData();
 
-    if (currentMillis - lastSendTime >= 60000) // 1 minuto
+    if (currentMillis - lastSendTime >= SEND_PERIOD)
     {
       lastSendTime = currentMillis;
 

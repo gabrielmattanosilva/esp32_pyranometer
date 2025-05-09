@@ -17,6 +17,7 @@ void initModbus()
 {
   modbusSerial.begin(9600, SERIAL_8N1, MODBUS_RX_PIN, MODBUS_TX_PIN);
   logSerialSD("Iniciando leitura do PYR20...");
+  pinMode(ADC_PIN, INPUT);
 }
 
 /**
@@ -120,11 +121,8 @@ int16_t readModbusData()
 {
   modbus_tx();
   int16_t solar_irradiance = modbus_rx();
-
-  if (solar_irradiance >= 0)
-  {
-    logSerialSD("Irradiancia: %d W/m^2", solar_irradiance);
-  }
-
+  logSerialSD("Irradiancia: %d W/m^2", solar_irradiance);
+  int16_t value = analogRead(ADC_PIN);
+  logSerialSD("Leitura ADC: %d", value);
   return solar_irradiance;
 }

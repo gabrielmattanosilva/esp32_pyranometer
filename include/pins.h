@@ -24,5 +24,6 @@
 
 // Outros pinos
 #define LED_PIN         2    // LED interno da placa ESP32 (GPIO2)
+#define ADC_PIN        36    // ADC1_CH0
 
 #endif // PINS_H
