@@ -9,21 +9,21 @@
 #define PINS_H
 
 // Configurações de pinos para o módulo Modbus (UART2 do ESP32)
-#define MODBUS_RX_PIN   16
-#define MODBUS_TX_PIN   17
+#define MODBUS_RX_PIN 16
+#define MODBUS_TX_PIN 17
 
 // Configurações de pinos para o RTC (I2C)
-#define I2C_SDA_PIN     21
-#define I2C_SCL_PIN     22
+#define I2C_SDA_PIN 21
+#define I2C_SCL_PIN 22
 
 // Configurações de pinos para o módulo SD (SPI)
-#define SPI_MISO_PIN    19
-#define SPI_MOSI_PIN    23
-#define SPI_SCK_PIN     18
-#define SD_CS_PIN       5
+#define SPI_MISO_PIN 19
+#define SPI_MOSI_PIN 23
+#define SPI_SCK_PIN 18
+#define SD_CS_PIN 5
 
 // Outros pinos
-#define LED_PIN         2    // LED interno da placa ESP32 (GPIO2)
-#define ADC_PIN        36    // ADC1_CH0
+#define LED_PIN 2  // LED interno da placa ESP32 (GPIO2)
+#define ADC_PIN 36 // ADC1_CH0
 
 #endif // PINS_H

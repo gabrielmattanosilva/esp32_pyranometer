@@ -16,9 +16,10 @@ void initThingSpeak();
 
 /**
  * @brief Envia dados de irradiância ao ThingSpeak
- * @param solar_irradiance Valor da irradiância solar
+ * @param irradiance_pyr20 Valor da irradiância solar do PYR20
+ * @param irradiance_bpw34 Valor da irradiância solar do BPW34
  * @return true se bem-sucedido, false caso contrário
  */
-bool sendToThingSpeak(int16_t solar_irradiance);
+bool sendToThingSpeak(int16_t irradiance_pyr20, int16_t irradiance_bpw34);
 
 #endif

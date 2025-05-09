@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <esp_task_wdt.h>
+#include "adc_module.h"
 #include "modbus_module.h"
 #include "pins.h"
 #include "rtc_module.h"
@@ -20,21 +21,22 @@
  */
 void setup()
 {
-  Serial.begin(115200);
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, LOW);
+	Serial.begin(115200);
+	pinMode(LED_PIN, OUTPUT);
+	digitalWrite(LED_PIN, LOW);
 
-  // Inicializa watchdog com timeout de 30 segundos
-  esp_task_wdt_init(30, true);
+	// Inicializa watchdog com timeout de 30 segundos
+	esp_task_wdt_init(30, true);
 
-  initRTC();
-  initSD();
-  initWiFi();
-  initModbus();
-  initThingSpeak();
+	initRTC();
+	initSD();
+	initWiFi();
+	initModbus();
+	initADC();
+	initThingSpeak();
 
-  logSerialSD("Sistema inicializado.");
-  logSerialSD("Memória livre inicial: %d bytes", esp_get_free_heap_size());
+	logSerialSD("Sistema inicializado.");
+	logSerialSD("Memória livre inicial: %d bytes", esp_get_free_heap_size());
 }
 
 /**
@@ -43,52 +45,53 @@ void setup()
  */
 void loop()
 {
-  static unsigned long previousMillis = 0;
-  static unsigned long lastSendTime = 0;
-  unsigned long currentMillis = millis();
+	static unsigned long previousMillis = 0;
+	static unsigned long lastSendTime = 0;
+	unsigned long currentMillis = millis();
 
-  yield(); // Permite que o ESP32 execute tarefas internas
+	yield(); // Permite que o ESP32 execute tarefas internas
 
-  if (currentMillis - previousMillis >= READ_PERIOD)
-  {
-    previousMillis = currentMillis;
+	if (currentMillis - previousMillis >= READ_PERIOD)
+	{
+		previousMillis = currentMillis;
 
-    int16_t solar_irradiance = readModbusData();
+		int16_t irradiance_pyr20 = readModbusData();
+		int16_t irradiance_bpw34 = readADC();
 
-    if (currentMillis - lastSendTime >= SEND_PERIOD)
-    {
-      lastSendTime = currentMillis;
+		if (currentMillis - lastSendTime >= SEND_PERIOD)
+		{
+			lastSendTime = currentMillis;
 
-      // Gravação no SD
-      if (writeDataToSD(solar_irradiance))
-      {
-        logSerialSD("Dados gravados no SD com sucesso!");
-      }
-      else
-      {
-        Serial.println("Falha ao gravar no SD.");
-      }
+			// Gravação no SD
+			if (writeDataToSD(irradiance_pyr20, irradiance_bpw34))
+			{
+				logSerialSD("Dados gravados no SD com sucesso!");
+			}
+			else
+			{
+				Serial.println("Falha ao gravar no SD.");
+			}
 
-      // Envio ao ThingSpeak
-      if (isWiFiConnected())
-      {
-        bool success = sendToThingSpeak(solar_irradiance);
-        digitalWrite(LED_PIN, success ? HIGH : LOW);
+			// Envio ao ThingSpeak
+			if (isWiFiConnected())
+			{
+				bool success = sendToThingSpeak(irradiance_pyr20, irradiance_bpw34);
+				digitalWrite(LED_PIN, success ? HIGH : LOW);
 
-        if (!success)
-        {
-          logSerialSD("Falha no envio ao ThingSpeak.");
-        }
-      }
-      else
-      {
-        digitalWrite(LED_PIN, LOW);
-        logSerialSD("WiFi desconectado, pulando envio ao ThingSpeak.");
-      }
+				if (!success)
+				{
+					logSerialSD("Falha no envio ao ThingSpeak.");
+				}
+			}
+			else
+			{
+				digitalWrite(LED_PIN, LOW);
+				logSerialSD("WiFi desconectado, pulando envio ao ThingSpeak.");
+			}
 
-      logSerialSD("Memória livre: %d bytes", esp_get_free_heap_size());
-    }
+			logSerialSD("Memória livre: %d bytes", esp_get_free_heap_size());
+		}
 
-    esp_task_wdt_reset(); // Alimenta o watchdog
-  }
+		esp_task_wdt_reset(); // Alimenta o watchdog
+	}
 }
