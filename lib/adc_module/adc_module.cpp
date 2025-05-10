@@ -12,8 +12,8 @@
  */
 void initADC()
 {
-	logSerialSD("Iniciando leitura do BPW34...");
-	pinMode(ADC_PIN, INPUT);
+    logSerialSD("Iniciando leitura do BPW34...");
+    pinMode(ADC_PIN, INPUT);
 }
 
 /**
@@ -22,8 +22,8 @@ void initADC()
  */
 int16_t readADC()
 {
-	// Incluir conversao de 0-4095 para 0-2000 W/m²
-	int16_t value = analogRead(ADC_PIN);
-	logSerialSD("Leitura ADC: %d", value);
-	return value;
+    // Incluir conversao de 0-4095 para 0-2000 W/m²
+    int16_t value = analogRead(ADC_PIN);
+    logSerialSD("Leitura ADC: %d", value);
+    return value;
 }
