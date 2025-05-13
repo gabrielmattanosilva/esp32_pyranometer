@@ -6,6 +6,8 @@
 #define SD_MODULE_H
 
 #include <SD.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 extern File sdFile; ///< Arquivo atual no SD
 
