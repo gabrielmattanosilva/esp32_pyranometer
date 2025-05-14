@@ -5,7 +5,7 @@
 #ifndef WIFI_MODULE_H
 #define WIFI_MODULE_H
 
-#include <stdint.h>
+#include <stdbool.h>
 
 /**
  * @brief Inicializa a conexão WiFi

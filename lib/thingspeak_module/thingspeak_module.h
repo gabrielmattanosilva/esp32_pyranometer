@@ -5,6 +5,7 @@
 #ifndef THINGSPEAK_MODULE_H
 #define THINGSPEAK_MODULE_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 class WiFiClient; ///< Forward declaration para WiFiClient
