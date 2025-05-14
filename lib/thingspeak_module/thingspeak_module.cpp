@@ -35,8 +35,6 @@ bool sendToThingSpeak(int16_t irradiance_pyr20, int16_t irradiance_bpw34)
 
     if (httpCode == 200)
     {
-        logSerialSD("Dados enviados ao ThingSpeak com sucesso!");
-
         return true;
     }
     else

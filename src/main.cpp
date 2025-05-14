@@ -87,14 +87,22 @@ void loop()
                 // Gravação no SD
                 if (writeDataToSD(latest.irradiance_pyr20, latest.irradiance_bpw34))
                 {
-                    logSerialSD("Dados gravados no SD com sucesso!");
+                    logSerialSD("Dados gravados no SD com sucesso! [%d, %d]",
+                                latest.irradiance_pyr20, latest.irradiance_bpw34);
                 }
 
                 // Envio ao ThingSpeak
                 if (isWiFiConnected())
                 {
                     bool success = sendToThingSpeak(latest.irradiance_pyr20, latest.irradiance_bpw34);
+                    logSerialSD("Dados enviados ao ThingSpeak com sucesso! [%d, %d]",
+                                latest.irradiance_pyr20, latest.irradiance_bpw34);
                     digitalWrite(LED_PIN, success ? HIGH : LOW);
+                }
+                else
+                {
+                    digitalWrite(LED_PIN, LOW);
+                    logSerialSD("WiFi desconectado, pulando envio ao ThingSpeak.");
                 }
             }
 
