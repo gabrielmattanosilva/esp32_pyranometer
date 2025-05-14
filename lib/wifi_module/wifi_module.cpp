@@ -9,6 +9,9 @@
 #include "sd_module.h"
 #include "wifi_module.h"
 
+/**
+ * @brief Inicializa a conexão WiFi
+ */
 void initWiFi()
 {
     const unsigned long wifiTimeout = 30000; // 30 segundos
@@ -31,7 +34,8 @@ void initWiFi()
     if (WiFi.status() == WL_CONNECTED)
     {
         logSerialSD("Conectado ao WiFi!");
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             digitalWrite(LED_PIN, HIGH);
             delay(500);
             digitalWrite(LED_PIN, LOW);
@@ -40,6 +44,10 @@ void initWiFi()
     }
 }
 
+/**
+ * @brief Verifica o status da conexão WiFi
+ * @return true se conectado, false caso contrário
+ */
 bool isWiFiConnected()
 {
     return WiFi.status() == WL_CONNECTED;

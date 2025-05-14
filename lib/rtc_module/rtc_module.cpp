@@ -9,6 +9,9 @@
 
 RTC_DS1307 rtc; ///< Instância global do RTC DS1307
 
+/**
+ * @brief Inicializa o módulo RTC
+ */
 void initRTC()
 {
     Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
@@ -21,6 +24,10 @@ void initRTC()
     }
 }
 
+/**
+ * @brief Obtém a data e hora atuais
+ * @return Objeto DateTime com a data/hora atual
+ */
 DateTime getCurrentTime()
 {
     return rtc.now();

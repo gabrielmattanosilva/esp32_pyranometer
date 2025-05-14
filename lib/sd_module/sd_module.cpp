@@ -10,6 +10,9 @@
 
 File sdFile; ///< Arquivo atualmente aberto no SD
 
+/**
+ * @brief Inicializa o módulo SD
+ */
 void initSD()
 {
     SPI.begin(SPI_SCK_PIN, SPI_MISO_PIN, SPI_MOSI_PIN, SD_CS_PIN);
@@ -22,6 +25,10 @@ void initSD()
     }
 }
 
+/**
+ * @brief Gera nome do arquivo de log baseado na data
+ * @return String com o nome do arquivo
+ */
 String generateLogFileName()
 {
     DateTime now = getCurrentTime();
@@ -32,6 +39,10 @@ String generateLogFileName()
     return String(fileName);
 }
 
+/**
+ * @brief Gera nome do arquivo de dados baseado na data
+ * @return String com o nome do arquivo
+ */
 String generateDataFileName()
 {
     DateTime now = getCurrentTime();
@@ -42,6 +53,11 @@ String generateDataFileName()
     return String(fileName);
 }
 
+/**
+ * @brief Registra uma mensagem no log do sistema
+ * @param format String de formato (printf-style)
+ * @param ... Argumentos variádicos
+ */
 void logSerialSD(const char *format, ...)
 {
     static char logMessage[256];
@@ -72,6 +88,12 @@ void logSerialSD(const char *format, ...)
     Serial.printf("[%s] %s\n", timestamp, logMessage);
 }
 
+/**
+ * @brief Escreve dados de irradiância no arquivo de dados
+ * @param irradiance_pyr20 Valor da irradiância solar do PYR20
+ * @param irradiance_bpw34 Valor da irradiância solar do BPW34
+ * @return true se bem-sucedido, false caso contrário
+ */
 bool writeDataToSD(int16_t irradiance_pyr20, int16_t irradiance_bpw34)
 {
     DateTime now = getCurrentTime();

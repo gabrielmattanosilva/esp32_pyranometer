@@ -7,15 +7,7 @@
 
 #include <stdbool.h>
 
-/**
- * @brief Inicializa a conexão WiFi
- */
 void initWiFi();
-
-/**
- * @brief Verifica o status da conexão WiFi
- * @return true se conectado, false caso contrário
- */
 bool isWiFiConnected();
 
 #endif
